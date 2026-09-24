@@ -16,7 +16,7 @@ router.post(
 
     try {
       const userCheck = await pool.query(
-        `SELECT email FROM user WHERE email = $1`,
+        `SELECT email FROM users WHERE email = $1`,
         [email],
       );
       if (userCheck.rows.length > 0) {
@@ -28,7 +28,7 @@ router.post(
 
       const result = await pool.query(
         `
-            INSERT INTO user (email, password_hash)
+            INSERT INTO users (email, password_hash)
             VALUES ($1, $2)`,
         [email, passwordHash],
       );
@@ -49,7 +49,7 @@ router.post(
     try {
       const result = await pool.query(
         `
-            SELECT * FROM user WHERE email = $1`,
+            SELECT * FROM users WHERE email = $1`,
         [email],
       );
 
