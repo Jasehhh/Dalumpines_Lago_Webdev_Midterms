@@ -1,18 +1,20 @@
-CREATE TYPE roles AS ENUM ('DEVELOPER', 'LEAD');
-CREATE TABLE user (
+CREATE TYPE user_role AS ENUM ('DEVELOPER', 'LEAD');
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(20) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    role roles NOT NULL DEFAULT 'DEVELOPER'
+    role user_role NOT NULL DEFAULT 'DEVELOPER'
 );
-CREATE TYPE environments AS ENUM ('DEVELOPMENT', 'STAGING', 'PRODUCTION');
-CREATE TYPE service_status AS ENUM ('HEALTHY', 'DEGRADED', 'DOWN');
+CREATE TYPE microservice_environment AS ENUM ('DEVELOPMENT', 'STAGING', 'PRODUCTION');
+CREATE TYPE microservice_status AS ENUM ('HEALTHY', 'DEGRADED', 'DOWN');
 CREATE TABLE microservice (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
+    name VARCHAR(60) NOT NULL,
     endpointUrl VARCHAR(500) NOT NULL,
-    environment environments NOT NULL DEFAULT 'DEVELOPMENT',
-    status service_status NOT NULL DEFAULT 'HEALTHY',
+    environment microservice_environment NOT NULL DEFAULT 'DEVELOPMENT',
+    status microservice_status NOT NULL DEFAULT 'HEALTHY',
     version VARCHAR(20) NOT NULL,
-    owner_email VARCHAR(20) NOT NULL REFERENCES user(email)
-)
+    owner_email SERIAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (owner_email) REFERENCES users(id)
+);

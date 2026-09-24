@@ -1,8 +1,8 @@
 import express from "express";
-// import pieRoutes from "./pieRoutes";
 import dotenv from "dotenv";
-// import authRoutes from "./authRoutes";
 import cors from "cors";
+import authRoutes from "./routes/authRoutes";
+import serviceRoutes from "./routes/serviceRoute";
 
 dotenv.config();
 
@@ -11,9 +11,9 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use("/api/pies", pieRoutes);
+app.use("/api/services", serviceRoutes);
 app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Pie API server running on http://localhost:${PORT}`);
+  console.log(`ServiceHub API server running on http://localhost:${PORT}`);
 });
